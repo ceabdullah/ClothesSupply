@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 
-namespace ClothesSupplyApi.Models
+namespace ClothesSupplyWebCms.Models
 {
-    public partial class Product
+    public class ProductDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
