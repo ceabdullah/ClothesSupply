@@ -23,9 +23,12 @@ namespace ClothesSupplyWebCms.Controllers
         }
 
         // GET: Product
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string productName)
         {
             var products = await _productsService.GetProduct();
+
+            products = String.IsNullOrEmpty(productName) ? products : products.Where(a => a.Name.ToLower().Contains(productName.ToLower()));
+
             return View(products);
         }
 
@@ -150,11 +153,11 @@ namespace ClothesSupplyWebCms.Controllers
         // POST: Product/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<IActionResult> Delete(int id, IFormCollection collection)
         {
             try
             {
-                _productsService.DeleteProduct(id);
+                await _productsService.DeleteProduct(id);
 
                 return RedirectToAction(nameof(Index));
             }

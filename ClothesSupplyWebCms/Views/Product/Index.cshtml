@@ -14,6 +14,13 @@
 <p>
     <a asp-action="ExportToExcel">Export To Excel</a>
 </p>
+
+<div>
+    <form asp-action="Index" enctype="multipart/form-data" method="get">
+        <input id="productName" type="text" name="productName" />
+        <input type="submit" value="Search" class="btn btn-default" />
+    </form>
+</div>
 <table class="table">
     <thead>
         <tr>
