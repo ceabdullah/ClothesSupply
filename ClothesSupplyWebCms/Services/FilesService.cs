@@ -30,7 +30,7 @@ namespace ClothesSupplyWebCms.Services
             return JsonConvert.DeserializeObject<Files>(responseString);
         }
 
-        public async Task<IActionResult> PostFiles(Files files)
+        public async Task<Files> PostFiles(Files files)
         {
             string _fileApiUrl = $"{_settings.Value.ClothesSupplyApiUrl}/api/Files";
 
@@ -40,7 +40,7 @@ namespace ClothesSupplyWebCms.Services
 
             response.EnsureSuccessStatusCode();
 
-            return new JsonResult("Upload Successful.");
+            return files;
         }
     }
 }

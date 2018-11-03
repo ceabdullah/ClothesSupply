@@ -90,10 +90,17 @@ namespace ClothesSupplyApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            _context.Files.Add(files);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetFiles", new { id = files.Id }, files);
+            if (_context.Files.Any(a => a.FileName == files.FileName))
+            {
+                var cFile = await _context.Files.Where(a => a.FileName == files.FileName).FirstOrDefaultAsync();
+                return CreatedAtAction("GetFiles", new { id = cFile.Id }, cFile);
+            }
+            else
+            {
+                _context.Files.Add(files);
+                await _context.SaveChangesAsync();
+                return CreatedAtAction("GetFiles", new { id = files.Id }, files);
+            }
         }
 
         // DELETE: api/Files/5

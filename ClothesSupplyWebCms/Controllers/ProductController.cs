@@ -21,15 +21,17 @@ namespace ClothesSupplyWebCms.Controllers
         }
 
         // GET: Product
-        public ActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var products = await _productsService.GetProduct();
+            return View(products);
         }
 
         // GET: Product/Details/5
-        public ActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            return View();
+            var product = await _productsService.GetProduct(id);
+            return View(product);
         }
 
         // GET: Product/Create
@@ -41,12 +43,10 @@ namespace ClothesSupplyWebCms.Controllers
         // POST: Product/Create
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> Create(IFormCollection collection)
         {
             try
             {
-                // TODO: Add insert logic here
-
                 var file = Request.Form.Files[0];
                 if (file.Length > 0)
                 {
@@ -54,12 +54,20 @@ namespace ClothesSupplyWebCms.Controllers
                     byte[] data = new byte[file.Length];
                     file.OpenReadStream().Read(data);
 
-                    _filesService.PostFiles(new Models.Files
+                    Files cFile = await _filesService.PostFiles(new Models.Files
                     {
                         File = data,
                         FileContentType = file.ContentType,
                         FileExtension = System.IO.Path.GetExtension(file.FileName),
                         FileName = file.FileName
+                    });
+
+                    await _productsService.PostProduct(new ProductDto
+                    {
+                        LastUpdated = DateTime.Now,
+                        Name = collection["Name"],
+                        Photo = "/file/" + cFile.FileName,
+                        Price = Double.Parse(collection["Price"])
                     });
                 }
                 return RedirectToAction(nameof(Index));
@@ -71,32 +79,58 @@ namespace ClothesSupplyWebCms.Controllers
         }
 
         // GET: Product/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            return View();
+            var product = await _productsService.GetProduct(id);
+            return View(product);
         }
 
         // POST: Product/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, IFormCollection collection)
         {
+            ProductDto cProduct = null;
             try
             {
-                // TODO: Add update logic here
+                var file = Request.Form.Files[0];
+                if (file.Length > 0)
+                {
+
+                    byte[] data = new byte[file.Length];
+                    file.OpenReadStream().Read(data);
+
+                    Files cFile = await _filesService.PostFiles(new Models.Files
+                    {
+                        File = data,
+                        FileContentType = file.ContentType,
+                        FileExtension = System.IO.Path.GetExtension(file.FileName),
+                        FileName = file.FileName
+                    });
+
+                    cProduct = await _productsService.PutProduct(id, new ProductDto
+                    {
+                        Id = id,
+                        LastUpdated = DateTime.Now,
+                        Name = collection["Name"],
+                        Photo = "/file/" + cFile.FileName,
+                        Price = Double.Parse(collection["Price"])
+                    });
+                }
 
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return View(cProduct);
             }
         }
 
         // GET: Product/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            return View();
+            var product = await _productsService.GetProduct(id);
+            return View(product);
         }
 
         // POST: Product/Delete/5
@@ -106,7 +140,7 @@ namespace ClothesSupplyWebCms.Controllers
         {
             try
             {
-                // TODO: Add delete logic here
+                _productsService.DeleteProduct(id);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -129,6 +163,8 @@ namespace ClothesSupplyWebCms.Controllers
 
             return File(file.File, file.FileContentType);
         }
+
+
 
     }
 }

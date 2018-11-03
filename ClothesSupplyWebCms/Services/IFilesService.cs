@@ -10,6 +10,6 @@ namespace ClothesSupplyWebCms.Services
     public interface IFilesService
     {
         Task<Files> GetFile(string fileName);
-        Task<IActionResult> PostFiles(Files files);
+        Task<Files> PostFiles(Files files);
     }
 }
