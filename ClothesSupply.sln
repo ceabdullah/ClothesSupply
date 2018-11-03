@@ -3,9 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2046
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClothesSupplyApi", "ClothesSupplyApi\ClothesSupplyApi.csproj", "{B5A29013-10A3-4518-961D-0060525B2826}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClothesSupplyApi", "ClothesSupplyApi\ClothesSupplyApi.csproj", "{B5A29013-10A3-4518-961D-0060525B2826}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClothesSupplyWebCms", "ClothesSupplyWebCms\ClothesSupplyWebCms.csproj", "{81DD3771-A58C-4C7E-805D-FC5877C9D775}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClothesSupplyWebCms", "ClothesSupplyWebCms\ClothesSupplyWebCms.csproj", "{81DD3771-A58C-4C7E-805D-FC5877C9D775}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dbs", "Dbs", "{AE5D5C62-83C7-4289-B817-405D7B8ACCF6}"
+	ProjectSection(SolutionItems) = preProject
+		C:\Users\abdullah\Desktop\aspnet-ClothesSupplyWebCms.Bak = C:\Users\abdullah\Desktop\aspnet-ClothesSupplyWebCms.Bak
+		C:\Users\abdullah\Desktop\ProductCatalogDb.Bak = C:\Users\abdullah\Desktop\ProductCatalogDb.Bak
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
